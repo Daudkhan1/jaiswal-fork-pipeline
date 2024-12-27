@@ -1,0 +1,70 @@
+pipeline {
+    agent any
+    
+    tools {
+        jdk 'jdk17'
+        maven 'maven3'
+    }
+    environment {
+        SCANNER_HOME = tool 'sonar-scanner'
+    }
+
+    stages {
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Daudkhan1/jaiswal-fork-pipeline.git'
+            }
+        }
+        
+        stage('Compile') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+        
+        stage('Sonarqube Analysis') {
+            steps {
+                sh '''
+                    $SCANNER_HOME/bin/sonar-scanner \
+                    -Dsonar.url=http://3.109.132.12:9000/ \
+                    -Dsonar.login=squ_d70a14a78c6d14771c7866d28f6a947c27564c01 \
+                    -Dsonar.projectName=shopping-cart \
+                    -Dsonar.java.binaries=. \
+                    -Dsonar.projectKey=shopping-cart -X
+                '''
+            }
+        }
+
+        stage ('Owasp Scan') {
+            steps {
+                dependencyCheck additionalArguments: ' --scan ./', odcInstallation: 'DP'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+
+        stage('Build Application') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+
+        stage('Build and Push Docker Image') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'dockerhub-id', toolName: 'docker') {
+                        sh 'docker build -t daudkhan1/shopping-cart:latest -f docker/Dockerfile .'
+                        sh "docker tag shopping-cart:latest daudidrees/shopping-cart:latest"
+                        sh 'docker push daudidrees/shopping-cart:latest'
+                    }
+                }
+            }
+        }
+
+        stage('Trigger CD Pipeline') {
+            steps {
+                build job: 'CD-Pipeline' , wait: true
+            }
+        }
+    }
+}
+
