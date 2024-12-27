@@ -42,11 +42,11 @@ pipeline {
             }
         }
 
-        stage('Build Application') {
-            steps {
-                sh 'mvn clean install'
-            }
-        }
+        // stage('Build Application') {
+        //     steps {
+        //         sh 'mvn clean install'
+        //     }
+        // }
 
         stage('Build and Push Docker Image') {
             steps {
