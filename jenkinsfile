@@ -26,8 +26,8 @@ pipeline {
             steps {
                 sh '''
                     $SCANNER_HOME/bin/sonar-scanner \
-                    -Dsonar.url=http://3.109.132.12:9000/ \
-                    -Dsonar.login=squ_d70a14a78c6d14771c7866d28f6a947c27564c01 \
+                    -Dsonar.url=http://localhost:9000/ \
+                    -Dsonar.login=squ_542e3999311281ea639a861a37b3bc2c9f7b61d8 \
                     -Dsonar.projectName=shopping-cart \
                     -Dsonar.java.binaries=. \
                     -Dsonar.projectKey=shopping-cart -X
