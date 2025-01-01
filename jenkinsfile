@@ -5,6 +5,7 @@ pipeline {
         jdk 'jdk17'
         maven 'maven3'
     }
+    
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
     }
@@ -35,9 +36,9 @@ pipeline {
             }
         }
 
-        // stage ('Owasp Scan') {
+        // stage('Owasp Scan') {
         //     steps {
-        //         dependencyCheck additionalArguments: ' --scan ./', odcInstallation: 'DP'
+        //         dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'DP'
         //         dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
         //     }
         // }
@@ -62,9 +63,8 @@ pipeline {
 
         stage('Trigger CD Pipeline') {
             steps {
-                build job: 'CD-Pipeline' , wait: true
+                build job: 'CD-Pipeline', wait: true
             }
         }
     }
 }
-
