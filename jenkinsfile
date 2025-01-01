@@ -26,7 +26,7 @@ pipeline {
             steps {
                 sh '''
                     $SCANNER_HOME/bin/sonar-scanner \
-                    -Dsonar.url=https://fa58-206-84-169-81.ngrok-free.app/ \
+                    -Dsonar.url=https://fa58-206-84-169-81.ngrok-free.app \
                     -Dsonar.login=squ_59a41730856f0a7e450fe5015bb5d73adbd443be \
                     -Dsonar.projectName=shopping-cart \
                     -Dsonar.java.binaries=. \
