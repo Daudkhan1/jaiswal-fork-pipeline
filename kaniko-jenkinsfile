@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        REGISTRY = 'your-docker-registry-url'
-        IMAGE = 'your-docker-image-name'
+        REGISTRY = 'daudidrees'
+        IMAGE = 'my-kaniko-image'
         TAG = 'latest'
     }
     stages {
