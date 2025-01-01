@@ -5,10 +5,9 @@ pipeline {
         steps {
             script {
                 withDockerRegistry(credentialsId: 'dockerhub-id', toolName: 'docker') {
-                    sh 'docker run -d --name shopping-cart -p 8070:8070 daudidrees/shopping-cart:latest'
+                    sh 'docker run -d -p 8070:8070 daudidrees/shopping-cart:latest'
                 }
             }
         }
     }
 }
-z
