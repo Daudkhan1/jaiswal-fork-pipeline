@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Docker Deploy To Container') {
             steps {
-                withDockerRegistry(credentialsId: 'dockerhub-id', toolName: 'docker') {
+                withDockerRegistry(credentialsId: 'dockerhub-id') {
                     sh 'docker run -d -p 8070:8070 daudidrees/shopping-cart:latest'
                 }
             }
