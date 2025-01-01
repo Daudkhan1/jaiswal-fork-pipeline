@@ -51,9 +51,9 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'dockerhub-id') {
+                    withDockerRegistry(credentialsId: 'dockerhub-id', toolName: 'docker') {
                         sh 'docker build -t daudkhan1/shopping-cart:latest -f docker/Dockerfile .'
-                        sh "docker tag shopping-cart:latest daudidrees/shopping-cart:latest"
+                        sh 'docker tag shopping-cart:latest daudidrees/shopping-cart:latest'
                         sh 'docker push daudidrees/shopping-cart:latest'
                     }
                 }
