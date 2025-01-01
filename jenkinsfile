@@ -29,7 +29,7 @@ pipeline {
 
                      sh '''
                          $SCANNER_HOME/bin/sonar-scanner \
-                         -Dsonar.url=http://192.168.49.2:30427/ \
+                         -Dsonar.url=https://6ffd-110-93-226-175.ngrok-free.app \
                          -Dsonar.login=squ_59a41730856f0a7e450fe5015bb5d73adbd443be \
                          -Dsonar.projectName=shopping-cart \
                          -Dsonar.java.binaries=. \
@@ -72,4 +72,7 @@ pipeline {
         }
     }
 }
+
+
+
 
