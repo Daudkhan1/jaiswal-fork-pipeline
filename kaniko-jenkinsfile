@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    environment {
+        REGISTRY = 'your-docker-registry-url'
+        IMAGE = 'your-docker-image-name'
+        TAG = 'latest'
+    }
+    stages {
+        stage('Build and Push with Kaniko') {
+            steps {
+                sh '''
+                # Run Kaniko to build and push the image
+                /usr/local/bin/kaniko \
+                    --dockerfile=Dockerfile \
+                    --context=$(pwd) \
+                    --destination=${REGISTRY}/${IMAGE}:${TAG}
+                '''
+            }
+        }
+    }
+}
