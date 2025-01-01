@@ -9,10 +9,13 @@ pipeline {
         stage('Build and Push with Kaniko') {
             steps {
                 sh '''
-                # Run Kaniko to build and push the image
-                /usr/local/bin/kaniko \
-                    --dockerfile=Dockerfile \
-                    --context=$(pwd) \
+                # Ensure Kaniko is executed using its Docker image for reliability
+                docker run --rm \
+                    -v $(pwd):/workspace \
+                    -v /root/.docker/config.json:/kaniko/.docker/config.json:ro \
+                    gcr.io/kaniko-project/executor:latest \
+                    --dockerfile=/workspace/Dockerfile \
+                    --context=/workspace \
                     --destination=${REGISTRY}/${IMAGE}:${TAG}
                 '''
             }
