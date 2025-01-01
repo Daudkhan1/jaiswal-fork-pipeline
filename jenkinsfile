@@ -61,9 +61,14 @@ pipeline {
             }
         }
 
-        stage('Trigger CD Pipeline') {
+        stage('Docker Deploy To Container') {
             steps {
-                build job: 'CD-Pipeline', wait: true
+                withDockerRegistry(credentialsId: 'dockerhub-id', url: 'https://index.docker.io') {
+                    sh '''
+                        # Run the Docker container with proper port mapping and binding to 0.0.0.0
+                        docker run -d -p 5000:5000 daudidrees/shopping-cart:latest
+                    '''
+                }
             }
         }
     }
